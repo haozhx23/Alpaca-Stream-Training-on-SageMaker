@@ -34,6 +34,8 @@ import datasets
 from functools import partial
 from typing import Dict, Optional, Sequence, Any
 import time
+
+from transformers import DataCollatorWithPadding
 ############################
 
 
@@ -104,8 +106,8 @@ def _tokenize_fn(strings: Sequence[str], tokenizer: transformers.PreTrainedToken
         tokenizer(
             text,
             return_tensors="pt",
-            padding="longest",   ########### batch
-            # padding='max_length',  ########### stream
+            # padding="longest",   ########### batch
+            padding='max_length',  ########### stream
             max_length=tokenizer.model_max_length,
             truncation=True,
         )
@@ -277,9 +279,13 @@ def train():
             tokenize_wiki_batch,
             tokenizer
         ),
+        remove_columns=['id','url','title','text'],
         batched=True
     )
-    data_collator = DataCollatorForSupervisedDataset(tokenizer=tokenizer)
+    # data_collator = DataCollatorForSupervisedDataset(tokenizer=tokenizer)
+    data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
+    
+    
     # data_module = dict(train_dataset=train_data, eval_dataset=None, data_collator=data_collator)
     data_module = dict(train_dataset=train_data.with_format("torch"), eval_dataset=None, data_collator=data_collator)
     

@@ -12,9 +12,9 @@ torchrun ${DISTRIBUTED_ARGS} "stanford_alpaca/$TRAIN_FILENAME" \
     --bf16 True \
     --output_dir "/tmp/llama_out" \
     --num_train_epochs 1 \
-    --per_device_train_batch_size 4 \
-    --per_device_eval_batch_size 4 \
-    --gradient_accumulation_steps 8 \
+    --per_device_train_batch_size 1 \
+    --per_device_eval_batch_size 1 \
+    --gradient_accumulation_steps 2 \
     --evaluation_strategy "no" \
     --save_strategy "steps" \
     --save_steps 2000 \

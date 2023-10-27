@@ -34,5 +34,6 @@ if __name__ == "__main__":
     #Note: we will use the pytorch launcher to launch deepspeed for multi-nodes training.
     #Note: we will use the s5cmd to speed up the uploading model assets to S3.
     os.system("chmod +x ./train.sh")
+    os.system("chmod +x ./s5cmd")
     os.system("/bin/bash -c ./train.sh")
     
